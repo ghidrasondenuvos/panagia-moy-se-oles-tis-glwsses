@@ -1,0 +1,41 @@
+<program>           ::= <statements>
+<statements>        ::= <statement> | <statements> <statement>
+
+<statement>         ::= <create_table_stmt> | <select_stmt>
+
+/* --- CREATE TABLE --- */
+<create_table_stmt> ::= "CREATE" "TABLE" <identifier> "(" <create_col_list> ")" ";"
+<create_col_list>   ::= <create_col_def> | <create_col_list> "," <create_col_def>
+<create_col_def>    ::= <identifier> <data_type>
+<data_type>         ::= "INT" | "FLOAT" | "VARCHAR" "(" <integer> ")"
+
+/* --- SELECT --- */
+<select_stmt>       ::= "SELECT" <select_col_list> "FROM" <table_ref> <join_clauses> <where_clause> <group_by_clause> <order_by_clause> <limit_clause> ";"
+
+<select_col_list>   ::= "*" | <column_list>
+<column_list>       ::= <column_item> | <column_list> "," <column_item>
+<column_item>       ::= <identifier> | <identifier> "." <identifier>
+
+/* --- TABLE REFERENCES & JOINS --- */
+<table_ref>         ::= <identifier> | <identifier> "AS" <identifier> | <identifier> <identifier>
+<join_clauses>      ::= <join_clauses> <join_clause> | ε
+<join_clause>       ::= "JOIN" <table_ref> "ON" <column_item> "=" <column_item>
+
+/* --- CLAUSES (WHERE, GROUP, ORDER, LIMIT) --- */
+<where_clause>      ::= "WHERE" <condition> | ε
+<condition>         ::= <condition> "AND" <condition> 
+                      | <condition> "OR" <condition> 
+                      | "NOT" <condition> 
+                      | "(" <condition> ")"
+                      | <column_item> <rel_op> <literal>
+                      | <column_item> "IN" "(" <literal_list> ")"
+                      | <column_item> "NOT" "IN" "(" <literal_list> ")"
+
+<rel_op>            ::= "=" | "!=" | ">" | "<" | ">=" | "<="
+
+<group_by_clause>   ::= "GROUP" "BY" <column_list> | ε
+<order_by_clause>   ::= "ORDER" "BY" <column_list> | ε
+<limit_clause>      ::= "LIMIT" <integer> | ε
+
+<literal_list>      ::= <literal> | <literal_list> "," <literal>
+<literal>           ::= <integer> | <float> | <string>
