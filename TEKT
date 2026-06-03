@@ -1,8 +1,6 @@
 pacman -Syu
 pacman -S mingw-w64-ucrt-x86_64-gcc flex bison
 
-Για την παραγωγή του εκτελέσιμου αρχείου από τον πηγαίο κώδικα (lexer.l και parser.y), εκτελούνται οι παρακάτω εντολές στο τερματικό:
-Παραγ. Λεκτικού Αναλυτή: 
 
 
 cd flex-bison
@@ -11,6 +9,3 @@ C:\WINFLEXBISON\win_bison.exe -d -v -o parser.tab.c parser.y
 C:\msys64\ucrt64\bin\gcc.exe -g lex.yy.c parser.tab.c -o program.exe
 
 .\program.exe test.sql
-
-Εκτέλεση: Το πρόγραμμα δέχεται το αρχείο .sql ως είσοδο: .\program.exe test.sql
-Σημείωση: Αν χρησιμοποιείς Windows (π.χ. MinGW), οι εντολές παραμένουν ίδιες. Αν έχεις προσθέσει δικά σου αρχεία (π.χ. .h), μην ξεχάσεις να τα αναφέρεις στην εντολή του gcc (π.χ. gcc -o myParser.exe lex.yy.c parser.tab.c main.c).
